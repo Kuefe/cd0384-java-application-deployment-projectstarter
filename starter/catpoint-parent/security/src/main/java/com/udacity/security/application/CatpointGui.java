@@ -2,7 +2,7 @@ package com.udacity.security.application;
 
 import com.udacity.security.data.PretendDatabaseSecurityRepositoryImpl;
 import com.udacity.security.data.SecurityRepository;
-import com.udacity.security.service.FakeImageService;
+import com.udacity.image.service.FakeImageService;
 import com.udacity.security.service.SecurityService;
 import net.miginfocom.swing.MigLayout;
 

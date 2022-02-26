@@ -1,4 +1,4 @@
-package com.udacity.security.service;
+package com.udacity.image.service;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
