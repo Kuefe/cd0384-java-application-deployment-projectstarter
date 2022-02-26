@@ -10,6 +10,11 @@
 
   <name>catpoint-parent</name>
   <url>http://www.example.com</url>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>security</module>
+  </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
