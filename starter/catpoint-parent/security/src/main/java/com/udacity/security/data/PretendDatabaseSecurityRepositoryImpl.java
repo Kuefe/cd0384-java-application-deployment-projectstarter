@@ -13,7 +13,7 @@ import java.util.prefs.Preferences;
  * memory and writes it to user preferences between app loads. This implementation is
  * intentionally a little hard to use in unit tests, so watch out!
  */
-public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository{
+public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository {
 
     private Set<Sensor> sensors;
     private AlarmStatus alarmStatus;
@@ -35,7 +35,7 @@ public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository
         //we've serialized our sensor objects for storage, which should be a good warning sign that
         // this is likely an impractical solution for a real system
         String sensorString = prefs.get(SENSORS, null);
-        if(sensorString == null) {
+        if (sensorString == null) {
             sensors = new TreeSet<>();
         } else {
             Type type = new TypeToken<Set<Sensor>>() {
@@ -88,5 +88,15 @@ public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository
     @Override
     public ArmingStatus getArmingStatus() {
         return armingStatus;
+    }
+
+    @Override
+    public boolean allSensorsInactive() {
+        for (int i = 0; i < sensors.size(); i++) {
+            if (sensors.iterator().next().getActive() == true) {
+                return false;
+            }
+        }
+        return true;
     }
 }

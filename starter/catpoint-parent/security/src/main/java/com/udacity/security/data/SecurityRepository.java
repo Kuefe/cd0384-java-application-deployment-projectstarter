@@ -15,5 +15,5 @@ public interface SecurityRepository {
     AlarmStatus getAlarmStatus();
     ArmingStatus getArmingStatus();
 
-
+    boolean allSensorsInactive();
 }
