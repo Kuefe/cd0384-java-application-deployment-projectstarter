@@ -157,9 +157,10 @@ class SecurityServiceTest {
     @ParameterizedTest
     @ValueSource(booleans = {false, true})
     void changeSensorActivationStatus_ImageNotCat_NoAlarmSensorsNotActive(Boolean statusOfSensor) {
-        Sensor sensor = setOffSensors.iterator().next();
+        Sensor sensor = setOffSensors.stream().findFirst().get();
         sensor.setActive(statusOfSensor);
         when(imageService.imageContainsCat(any(BufferedImage.class), anyFloat())).thenReturn(false);
+        when(securityService.getSensors()).thenReturn(setOffSensors);
 
         securityService.processImage(mock(BufferedImage.class));
 

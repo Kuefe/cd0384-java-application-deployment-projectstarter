@@ -44,13 +44,13 @@ public class SecurityService {
             if (isCatDetected) {
                 setAlarmStatus(AlarmStatus.ALARM);
             }
-            changeActivationForSensors();
+            inactivateAllSensors();
         }
         securityRepository.setArmingStatus(armingStatus);
         statusListeners.forEach(sl -> sl.sensorStatusChanged());
     }
 
-    private void changeActivationForSensors(){
+    private void inactivateAllSensors() {
         Set<Sensor> sensors = getSensors().stream().map(sensor -> {
             sensor.setActive(false);
             return sensor;
@@ -70,10 +70,14 @@ public class SecurityService {
         if (cat && getArmingStatus() == ArmingStatus.ARMED_HOME) {
             setAlarmStatus(AlarmStatus.ALARM);
         } else {
-            setAlarmStatus(AlarmStatus.NO_ALARM);
+            if (allSensorsInactive()) setAlarmStatus(AlarmStatus.NO_ALARM);
         }
 
         statusListeners.forEach(sl -> sl.catDetected(cat));
+    }
+
+    private boolean allSensorsInactive(){
+        return getSensors().stream().noneMatch(Sensor::getActive);
     }
 
     /**
