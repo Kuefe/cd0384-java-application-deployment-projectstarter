@@ -218,4 +218,38 @@ class SecurityServiceTest {
 
         verify(securityRepository).setAlarmStatus(ALARM);
     }
+
+    // Coverage Test 1
+    // If the image service identifies an image containing a cat
+    // and change the system form disarmed to armed_home or armed_away
+    // set the alarm status to alarm
+    @ParameterizedTest
+    @EnumSource(
+            value = ArmingStatus.class,
+            names = {"ARMED_HOME", "ARMED_AWAY"}
+    )
+    void imageCat_systemArmed_returnAlarm(ArmingStatus armingStatus) {
+        when(securityService.getArmingStatus()).thenReturn(ArmingStatus.DISARMED);
+        when(imageService.imageContainsCat(any(BufferedImage.class), anyFloat())).thenReturn(true);
+
+        securityService.processImage(mock(BufferedImage.class));
+        securityService.setArmingStatus(armingStatus);
+
+        verify(securityRepository).setAlarmStatus(ALARM);
+    }
+
+    // Coverage Test 2
+    // if pending alarm
+    // and an active sensor becomes inactive,
+    // return to no alarm state.
+    @Test
+    void alarmPending_sensorBecomesActive_alarmNoAlarm(){
+        Sensor sensor = setOffSensors.stream().findFirst().get();
+        sensor.setActive(true);
+        when(securityService.getAlarmStatus()).thenReturn(PENDING_ALARM);
+
+        securityService.changeSensorActivationStatus(sensor,false);
+
+        verify(securityRepository).setAlarmStatus(NO_ALARM);
+    }
 }
