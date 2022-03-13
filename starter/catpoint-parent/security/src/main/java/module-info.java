@@ -8,4 +8,5 @@ module security {
     requires image;
 
     opens com.udacity.security.data to gson;
+    opens com.udacity.security.service;
 }
