@@ -178,7 +178,6 @@ public class SecurityService {
     // Method only for testing cases 3 and 5
     public void changeSensorActivationStatus(Sensor sensor) {
         AlarmStatus alarmStatus = getAlarmStatus();
-        ArmingStatus armingStatus = getArmingStatus();
 
         if (alarmStatus == AlarmStatus.PENDING_ALARM && !sensor.getActive()) {
             handleSensorDeactivated();
